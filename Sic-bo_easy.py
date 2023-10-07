@@ -1,11 +1,10 @@
-# https://github.com/Rapptz/discord.py/blob/master/examples/app_commands/basic.py
 from typing import Optional
 import random
 import discord
 from discord import app_commands
 
 
-MY_GUILD = discord.Object(id=991905864162226177)  # replace with your guild id
+MY_GUILD = discord.Object(id=991905864162226177)  
 
 
 class MyClient(discord.Client):
@@ -16,7 +15,6 @@ class MyClient(discord.Client):
 
 
     async def setup_hook(self):
-        # This copies the global commands over to your guild.
         self.tree.copy_global_to(guild=MY_GUILD)
         await self.tree.sync(guild=MY_GUILD)
 
