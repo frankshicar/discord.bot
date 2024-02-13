@@ -4,6 +4,8 @@ from discord.ext import commands
 from discord import app_commands
 import mysql.connector
 import yaml
+import datetime 
+
 
 # 讀取 config.yml 文件
 with open('config.yml', 'r') as file:
@@ -58,5 +60,20 @@ async def warn(interaction: discord.Interaction, member: discord.Member, reason:
         await interaction.response.send_message(f"{member.name} 因達到3次警告而被ban!")
     # await interaction.response.send_message(f"{member.display_name} 被警告，原因：{reason}")
 
+@client.tree.command(name="timeoutmem", description="對成員禁言")
+@app_commands.describe(member="要禁言的成員", minutes="禁言秒數", reason="禁言原因")
+@app_commands.guilds(MY_GUILD)
+@commands.has_permissions(manage_roles=True)  # 只有管理員才能使用這個指令
+async def timeout(interaction: discord.Interaction, member: discord.Member, minutes: int, reason: str):
+    await member.edit(timed_out_until=discord.utils.utcnow() + datetime.timedelta(minutes=minutes))
+    await interaction.response.send_message(f'{member.name}已被設定超時時間，將在{minutes}分鐘後解除超時，原因{reason}。')
+
+@client.tree.command(name="retimeoutmem", description="對成員解除禁言")
+@app_commands.describe(member="要解除禁言的成員", reason="解除禁言原因")
+@app_commands.guilds(MY_GUILD)
+@commands.has_permissions(manage_roles=True)
+async def remove_timeout(interaction: discord.Interaction, member: discord.Member, reason: str):
+    await member.edit(timed_out_until=discord.utils.utcnow())  # 使用已知的 UTC 時間
+    await interaction.response.send_message(f'{member.name}的超時已被解除，原因{reason}。')
 # 運行機器人
 client.run(bot_token)
