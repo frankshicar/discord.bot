@@ -77,19 +77,19 @@
 
 
 
-# from discord.ext import commands
-# import discord
+from discord.ext import commands
+import discord
 
-# intents = discord.Intents.all()
+intents = discord.Intents.all()
 
-# bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix='!', intents=intents)
 
-# @bot.command()
-# async def calculate(ctx, *, expression):
-#     try:
-#         result = eval(expression)
-#         await ctx.send(f'Result: {result}')
-#     except Exception as e:
-#         await ctx.send(f'Error: {str(e)}')
+@bot.command()
+async def calculate(ctx, *, expression):
+    try:
+        result = eval(expression)
+        await ctx.send(f'Result: {result}')
+    except Exception as e:
+        await ctx.send(f'Error: {str(e)}')
 
-# bot.run('MTEyMjkwMTQzNjk5NzU3ODc5Mg.GSP5iN.o3gvaEY_bUlz3kJkiDuvCpREy_vJ4a7_9rVG8w')
+bot.run('MTEyMjkwMTQzNjk5NzU3ODc5Mg.GSP5iN.o3gvaEY_bUlz3kJkiDuvCpREy_vJ4a7_9rVG8w')
