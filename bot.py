@@ -292,24 +292,3 @@ bot.run('MTEyMjkwMTQzNjk5NzU3ODc5Mg.GSP5iN.o3gvaEY_bUlz3kJkiDuvCpREy_vJ4a7_9rVG8
 
 
 
-from discord.ext import commands
-import discord
-
-intents = discord.Intents.all()
-
-bot = commands.Bot(command_prefix='!',intents=intents)
-
-@bot.event
-async def on_ready():
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
-    print('------')
-
-@bot.command()
-@commands.has_permissions(ban_members=True)
-async def ban(ctx, member: commands.MemberConverter):
-    await member.ban()
-    await ctx.send(f'{member.name} has been banned.')
-
-bot.run('MTEyMjkwMTQzNjk5NzU3ODc5Mg.GSP5iN.o3gvaEY_bUlz3kJkiDuvCpREy_vJ4a7_9rVG8w')
