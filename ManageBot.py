@@ -43,23 +43,30 @@ class MyClient(commands.Bot):
 client = MyClient(command_prefix="", intents=intents)
 
 # 斜杠命令 - 警告成員
-@client.tree.command(name="warn", description="對成員發出警告")
-@app_commands.describe(member="要警告的成員", reason="警告的原因")
-@app_commands.guilds(MY_GUILD)
-async def warn(interaction: discord.Interaction, member: discord.Member, reason: str):
-    # 斜杠命令的邏輯
-    # 處理警告操作
-    if member.id not in warns:
-        warns[member.id] = 1 
-    else:
-        warns[member.id] += 1
+# @client.tree.command(name="warn", description="對成員發出警告")
+# @app_commands.describe(member="要警告的成員", reason="警告的原因")
+# @app_commands.guilds(MY_GUILD)
+# async def warn(interaction: discord.Interaction, member: discord.Member, reason: str):
+#     # 斜杠命令的邏輯
+#     # 處理警告操作
+#     if member.id not in warns:
+#         warns[member.id] = 1 
+#     else:
+#         warns[member.id] += 1
 
-    await interaction.response.send_message(f"{member.mention}，原因：{reason} 已獲得 {warns[member.id]} 次警告!")
+#     await interaction.response.send_message(f"{member.mention}，原因：{reason} 已獲得 {warns[member.id]} 次警告!")
 
-    if warns[member.id] == 3:
-        await member.ban()
-        await interaction.response.send_message(f"{member.mention} 因達到3次警告而被ban!")
+#     if warns[member.id] == 3:
+#         await member.ban()
+#         await interaction.response.send_message(f"{member.mention} 因達到3次警告而被ban!")
     # await interaction.response.send_message(f"{member.display_name} 被警告，原因：{reason}")
+
+@client.tree.command(name="ban", description="將成員踢出伺服器並加入黑名單")
+@app_commands.describe(member="要警告的成員", reason="踢出的原因")
+@app_commands.guilds(MY_GUILD)
+async def ban(interaction: discord.Interaction, member: discord.Member, reason: str):
+    await member.ban()
+    await interaction.response.send_message(f'{member.name} has been banned.')
 
 @client.tree.command(name="timeoutmem", description="對成員禁言")
 @app_commands.describe(member="要禁言的成員", minutes="禁言秒數", reason="禁言原因")
@@ -91,6 +98,11 @@ async def get_roles(interaction: discord.Interaction, member: discord.Member):
         f"Joined at: {member.joined_at}\n" 
         f"{member.display_name} 的身份組: {roles_description}")
 
-
+# 查看ping值
+@client.tree.command(name="ping", description="查看ping")
+@app_commands.describe()
+@app_commands.guilds(MY_GUILD)
+async def ping(interaction: discord.Interaction): # a slash command will be created with the name "ping"
+    await interaction.response.send_message(f"Pong! Latency is {client.latency}")
 # 運行機器人
 client.run(bot_token)
