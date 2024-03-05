@@ -1,9 +1,18 @@
 import discord
 from discord.ext import commands
+import yaml
 
 intents = discord.Intents.all()
 
 bot = commands.Bot(command_prefix='!', intents=intents)
+
+# 讀取 config.yml 文件
+with open('config.yml', 'r') as file:
+    config = yaml.safe_load(file)
+
+bot_token = config['bot_token']
+MY_GUILD = discord.Object(id=config['guild_id'])
+
 
 # 遊戲板，初始化為空的3x3列表
 game_board = [[' ' for _ in range(3)] for _ in range(3)]
@@ -47,7 +56,7 @@ async def mark(ctx, row: int, col: int):
     else:
         await ctx.send('無效的位置。')
 
-bot.run('MTEyMjkwMTQzNjk5NzU3ODc5Mg.GSP5iN.o3gvaEY_bUlz3kJkiDuvCpREy_vJ4a7_9rVG8w')
+bot.run(bot_token)
 
 
 
